@@ -53,11 +53,11 @@ func main() {
 
 	log.SetOutput(f)
 
-	DoEvery(1*time.Hour, GetWeatherForecast)
+	DoEvery(10*time.Second, GetWeatherForecast)
 }
 
 func GetWeatherForecast(t time.Time) {
-	fmt.Printf("%v: Hello, World!\n", t)
+	fmt.Printf("%v: tick\n", t)
 
 	type sys struct {
 		Pod string `json:"pod"`
@@ -183,6 +183,7 @@ func GetWeatherForecast(t time.Time) {
 			log.Println("response Body:", string(body))
 		}
 	}
+	fmt.Printf("%v: tack\n", t)
 }
 
 func DoEvery(d time.Duration, f func(time.Time)) {
