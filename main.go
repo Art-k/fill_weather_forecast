@@ -53,7 +53,7 @@ func main() {
 
 	log.SetOutput(f)
 
-	DoEvery(10*time.Second, GetWeatherForecast)
+	DoEvery(1*time.Hour, GetWeatherForecast)
 }
 
 func GetWeatherForecast(t time.Time) {
