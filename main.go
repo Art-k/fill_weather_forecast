@@ -17,8 +17,6 @@ import (
 var Db *gorm.DB
 var Err error
 
-const DbLogMode = true
-
 const URL = "http://api.openweathermap.org/data/2.5/forecast?id=703448&APPID=d8b90697a8eb8e570a3e526e813307c0"
 
 var HostToPost string
@@ -121,30 +119,33 @@ func GetWeatherForecast(t time.Time) {
 	resp, err := http.Get(URL)
 	if err != nil {
 		log.Fatalln(err)
+		return
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalln(err)
+		return
 	}
 
-	fmt.Println(string(body))
+	log.Println(string(body))
 
 	var response jsonPocket
 	jsonErr := json.Unmarshal(body, &response)
 	if jsonErr != nil {
 		log.Fatal(jsonErr)
+		return
 	}
 
-	fmt.Println("\n")
-	fmt.Println(response)
+	log.Println("\n")
+	log.Println(response)
 
 	for ind, val := range response.List {
-		fmt.Println(ind)
-		fmt.Println(val)
+		log.Println(ind)
+		log.Println(val)
 
 		tm := time.Unix(val.Dt, 0)
-		fmt.Println(tm)
+		log.Println(tm)
 
 		var wfd WeatherForecastData
 
@@ -172,14 +173,14 @@ func GetWeatherForecast(t time.Time) {
 		client := &http.Client{}
 		resp, err := client.Do(req)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		} else {
 			defer resp.Body.Close()
 
-			fmt.Println("response Status:", resp.Status)
-			fmt.Println("response Headers:", resp.Header)
+			log.Println("response Status:", resp.Status)
+			log.Println("response Headers:", resp.Header)
 			body, _ := ioutil.ReadAll(resp.Body)
-			fmt.Println("response Body:", string(body))
+			log.Println("response Body:", string(body))
 		}
 	}
 }
